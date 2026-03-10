@@ -3,13 +3,13 @@ import {axiosInstance} from "../lib/axios";
 import axios from "axios";
 import {toast} from "react-hot-toast";
 import { io } from "socket.io-client";
-const BASE_URL=import.meta.Mode=="development"?"http://localhost:3000":"/"
+const BASE_URL=import.meta.Mode=="development" ?"http://localhost:3000":"/"
 export const useAuthStore=create((set, get)=>({
     
     authUser:null,
     onlineUsers: [],
     isSigningUp:false,
-    isLoggingIng:false,
+    isLoggingIn:false,
     isUpdatingProfile:false,    
     isCheckingAuth:true,
     socket:null,
@@ -28,19 +28,20 @@ export const useAuthStore=create((set, get)=>({
     signup: async(data)=>{
       set({isSigningUp:true});
       try{
-      const res=await axiosInstance.post("/auth/signup",data);  
-      toast.success("Account create successfully")
-      set({authUser:res.data})
-        get().connectSocket();
+        await axiosInstance.post("/auth/signup",data);  
+        toast.success("Account created successfully. Please log in.");
+        // Do NOT auto-login here; user must log in manually
+        return true;
       } catch(error){
-        toast.error(error.response.data.message)
+        toast.error(error.response?.data?.message || "Failed to create account");
         console.log("Error in signup:",error);
+        return false;
       }finally{
         set({isSigningUp:false})
       }
     },
     login: async(data)=>{
-        set({isLoggingIng:true});
+        set({isLoggingIn:true});
         try{
         const res=await axiosInstance.post("/auth/login",data);  
         toast.success("Logged in successfully")
@@ -48,10 +49,10 @@ export const useAuthStore=create((set, get)=>({
         set({authUser:res.data})
         get().connectSocket();
         } catch(error){
-          toast.error(error.response.data.message)
+          toast.error(error.response?.data?.message || "Failed to login")
           console.log("Error in login:",error);
         }finally{
-          set({isLoggingIng:false})
+          set({isLoggingIn:false})
         }
     },
     logout:async()=>{
