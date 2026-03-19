@@ -54,16 +54,20 @@ Server sends the message to the other user instantly
 
 ⚙️ Installation
 # Clone the repository
-git clone https://github.com/Yuvi264/Realtime-chat-app.git
+git clone https://github.com/Yuvi264/chat-app.git
 
 # Go to project folder
 cd chat-app
 
-# Install dependencies
+# Setup backend
+cd backend
 npm install
+npm run dev
 
-# Run the project
-npm start
+# Open a new terminal and setup frontend
+cd frontend
+npm install
+npm run dev
 
 🌐 Deployment
 
