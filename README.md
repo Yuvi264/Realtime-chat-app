@@ -79,13 +79,13 @@ The project is deployed and can be accessed here:
 
 💡 Future Improvements
 
-File and image sharing
+File sharing
 
 Notifications
 
 Video calling
 
-Dark mode
+
 
 👨‍💻 Author
 
